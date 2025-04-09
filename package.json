@@ -1,0 +1,28 @@
+{
+  "name": "chatboot",
+  "version": "1.0.0",
+  "description": "ChatBoot Duc Minh ",
+  "main": "server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon --exec babel-node src/server.js"
+  },
+  "keywords": [
+    "ChatBoot",
+    "Ask"
+  ],
+  "author": "MinCode",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/node": "^7.26.0",
+    "@babel/preset-env": "^7.26.9",
+    "nodemon": "^3.1.9"
+  }
+}
