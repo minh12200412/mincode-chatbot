@@ -2,11 +2,10 @@
   "name": "chatboot",
   "version": "1.0.0",
   "description": "ChatBoot Duc Minh ",
-  "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon --exec babel-node src/server.js"
+    "start": "node server.js",
+    "dev": "nodemon --exec babel-node server.js"
   },
   "keywords": [
     "ChatBoot",
