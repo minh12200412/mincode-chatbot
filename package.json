@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "ChatBoot Duc Minh ",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon --exec babel-node server.js"

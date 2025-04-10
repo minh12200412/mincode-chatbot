@@ -1,18 +1,22 @@
 import express from "express";
 import bodyParser from "body-parser";
-import viewEngine from "./src/config/viewEngine";
-import webRoutes from "./src/routers/web";
-require("dotenv").config();
+import { configViewEngine } from "./src/config/viewEngine.js"; // Import named export
+import { initWebRouters } from "./src/routers/web.js"; // Import named export
+import dotenv from "dotenv";
 
-let app = express();
+dotenv.config();
 
-viewEngine(app);
-webRoutes(app);
+const app = express();
+
+// Middleware phải được khai báo TRƯỚC khi định tuyến
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let port = process.env.PORT;
+// Cấu hình view engine và routes
+configViewEngine(app);
+initWebRouters(app);
 
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log("app is running at the port" + port);
+  console.log(`Server is running on port ${port}`);
 });

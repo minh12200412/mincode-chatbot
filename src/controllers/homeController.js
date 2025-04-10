@@ -1,52 +1,39 @@
-require("dotenv").config();
-let getHomePage = (req, res) => {
+import dotenv from "dotenv";
+dotenv.config();
+
+// Định nghĩa và export từng hàm riêng lẻ
+export const getHomePage = (req, res) => {
   return res.render("homePage.ejs");
 };
 
-let postWebHook = (req, res) => {
-  let body = req.body;
+export const postWebHook = (req, res) => {
+  const body = req.body;
 
-  // Check the webhook event is from a Page subscription
   if (body.object === "page") {
-    // Iterate over each entry - there may be multiple if batched
-    body.entry.forEach(function (entry) {
-      // Get the webhook event. entry.messaging is an array, but
-      // will only ever contain one event, so we get index 0
-      let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
+    body.entry.forEach((entry) => {
+      const webhookEvent = entry.messaging[0];
+      console.log(webhookEvent);
     });
-
-    // Return a '200 OK' response to all events
     res.status(200).send("EVENT_RECEIVED");
   } else {
-    // Return a '404 Not Found' if event is not from a page subscription
     res.sendStatus(404);
   }
 };
 
-let getWebHook = (req, res) => {
-  let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+export const getWebHook = (req, res) => {
+  const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+  const mode = req.query["hub.mode"];
+  const token = req.query["hub.verify_token"];
+  const challenge = req.query["hub.challenge"];
 
-  let mode = req.query["hub.mode"];
-  let token = req.query["hub.verify_token"];
-  let challenge = req.query["hub.challenge"];
-
-  // Check if a token and mode is in the query string of the request
   if (mode && token) {
-    // Check the mode and token sent is correct
     if (mode === "subscribe" && token === VERIFY_TOKEN) {
-      // Respond with the challenge token from the request
       console.log("WEBHOOK_VERIFIED");
       res.status(200).send(challenge);
     } else {
-      // Respond with '403 Forbidden' if verify tokens do not match
       res.sendStatus(403);
     }
+  } else {
+    res.sendStatus(400); // Thiếu tham số
   }
-};
-
-module.exports = {
-  getHomePage: getHomePage,
-  postWebHook: postWebHook,
-  getWebHook: getWebHook,
 };
